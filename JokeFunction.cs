@@ -21,6 +21,7 @@ namespace IntelliTect.Function
 
             var jokeService = new JokeService();
             var joke = jokeService.GetJoke();
+            log.LogInformation($"Joke: {joke.Setup} {joke.Punchline}");
             return new OkObjectResult(joke);
 
             // log.LogInformation("C# HTTP trigger function processed a request.");
