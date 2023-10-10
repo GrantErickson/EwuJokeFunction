@@ -17,6 +17,7 @@ namespace IntelliTect.Function
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
+            log.LogInformation("A joke was requested.");
 
             var jokeService = new JokeService();
             var joke = jokeService.GetJoke();
