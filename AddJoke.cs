@@ -27,20 +27,19 @@ namespace IntelliTect.Function
             log.LogInformation("Add a joke");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            string name = data?.name;
+            // dynamic data = JsonConvert.DeserializeObject(requestBody);
+            // string name = data?.name;
 
-            // string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            // Joke? joke = JsonConvert.DeserializeObject<Joke>(requestBody);
+            Joke joke = JsonConvert.DeserializeObject<Joke>(requestBody);
 
-            if (!string.IsNullOrEmpty(name))
+            if (joke != null)
             {
-                msg.Add(name);
-                return new OkObjectResult($"Hello, {name}. This HTTP triggered function executed successfully.");
+                msg.Add(JsonConvert.SerializeObject(joke));
+                return new OkObjectResult($"joke added successfully");
             }
             else
             {
-                return new BadRequestObjectResult("Need a joke name");
+                return new BadRequestObjectResult("Need a joke");
             }
         }
     }
