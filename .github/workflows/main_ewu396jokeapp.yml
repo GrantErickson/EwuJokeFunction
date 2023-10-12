@@ -32,6 +32,13 @@ jobs:
           dotnet build --configuration Release --output ./output
           popd
 
+      - name: 'Login to Azure'
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID_CREATED_SP }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         id: fa
@@ -39,4 +46,3 @@ jobs:
           app-name: 'Ewu396JokeApp'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C99190E153F3468093858384AB311338 }}
