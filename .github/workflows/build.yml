@@ -5,6 +5,8 @@ name: Integration build
 
 on:
   push:
+    branches:
+      - '!main'
   workflow_dispatch:
 
 env:
