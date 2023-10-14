@@ -1,24 +1,21 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy dotnet core project to Azure Function App - Ewu396JokeApp
+name: Integration build
 
 on:
   push:
     branches:
-      - main
+      - '*'
+      - '!main'
   workflow_dispatch:
-
-permissions:
-  id-token: write
-  contents: read
 
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '6.0.x' # set this to the dotnet version to use
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout GitHub Action'
@@ -35,18 +32,3 @@ jobs:
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           dotnet build --configuration Release --output ./output
           popd
-
-      - name: 'Login to Azure'
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID_CREATED_SP }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-      - name: 'Run Azure Functions Action'
-        uses: Azure/functions-action@v1
-        id: fa
-        with:
-          app-name: 'ewujokefn-pcs'
-          slot-name: 'Production'
-          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
